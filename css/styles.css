@@ -216,43 +216,21 @@ img { display: block; max-width: 100%; }
   height: 60vh; min-height: 300px;
   overflow: hidden;
   display: flex; align-items: center; justify-content: center;
+  /* Imagen local: messi-hero.png (1280×720) como fondo de la sección */
+  background-image: url('../assets/images/messi-hero.png.webp');
+  background-size: cover;
+  background-position: center top;
 }
 
-/* Imagen de fondo del estadio */
-.hero-bg {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center;
-  z-index: 0;
-  transform: scale(1.05);
-  transition: transform 10s ease;
-}
-.hero:hover .hero-bg { transform: scale(1.0); }
-
-/* Overlay degradado oscuro */
+/* Overlay degradado oscuro — imagen sutil pero reconocible */
 .hero-overlay {
   position: absolute; inset: 0; z-index: 1;
   background: linear-gradient(
     135deg,
-    rgba(8,12,20,0.88) 0%,
-    rgba(8,12,20,0.72) 50%,
-    rgba(8,12,20,0.85) 100%
+    rgba(8,12,20,0.85) 0%,
+    rgba(8,12,20,0.5)  50%,
+    rgba(8,12,20,0.75) 100%
   );
-}
-
-/* Silueta artística del jugador (solo tablet+) */
-.hero-player {
-  position: absolute; right: 0; bottom: 0;
-  height: 100%; width: 38%;
-  z-index: 2; overflow: hidden;
-  display: none;
-}
-.player-silhouette {
-  height: 100%; width: 100%;
-  object-fit: contain; object-position: right bottom;
-  /* Sombra artística sutil — no es una foto literal */
-  filter: grayscale(100%) sepia(20%) opacity(0.18);
-  mix-blend-mode: screen;
 }
 
 /* Partículas CSS animadas en el hero */
@@ -545,7 +523,7 @@ img { display: block; max-width: 100%; }
   .hero-particles { display: none; }
   html { scroll-behavior: auto; }
   .match { transition: none; }
-  .hero-bg { transition: none; }
+  .hero { background-attachment: scroll; } /* fallback para reduced-motion */
   .cursor { display: none !important; }
   .hero-title, .hero-sub { opacity: 1 !important; }
 }
@@ -556,7 +534,7 @@ img { display: block; max-width: 100%; }
 @media (min-width: 768px) {
   body { font-size: 16px; }
   .hero { height: 72vh; }
-  .hero-player { display: block; }
+  /* hero ocupa más altura en tablet */
   .match-grid { grid-template-columns: repeat(2, 1fr); }
   .match-grid.grid-mode { grid-template-columns: repeat(3, 1fr); }
   .day-title { font-size: 1.6rem; }

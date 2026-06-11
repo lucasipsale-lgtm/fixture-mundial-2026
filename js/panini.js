@@ -1,5 +1,5 @@
 /* ============================================================
-   QUINIELA MUNDIAL 2026 · js/panini.js
+   PRODE MUNDIAL 2026 · js/panini.js
    - Pronósticos guardados en localStorage
    - Sistema de puntuación: 3 exacto / 1 ganador / 0 fallo
    - Tabla de posiciones desde API ESPN
@@ -32,6 +32,30 @@ function getFriends()     { try { return JSON.parse(localStorage.getItem(KEYS.FR
 function saveUser(data)        { localStorage.setItem(KEYS.USER,        JSON.stringify(data)); }
 function savePredictions(data) { localStorage.setItem(KEYS.PREDICTIONS, JSON.stringify(data)); }
 function saveFriends(data)     { localStorage.setItem(KEYS.FRIENDS,     JSON.stringify(data)); }
+
+/* ============================================================
+   GUARDAR / BLOQUEAR PRONÓSTICO POR PARTIDO
+   ============================================================ */
+
+/* Devuelve true si los inputs del partido deben estar deshabilitados */
+function isLocked(matchId, state) {
+  if (state === 'post') return true;
+  return !!localStorage.getItem('prode_guardado_' + matchId);
+}
+
+/* Bloquea inputs + botón y persiste en localStorage */
+function lockMatch(matchId) {
+  localStorage.setItem('prode_guardado_' + matchId, '1');
+  document.querySelectorAll(`.pred-input[data-match="${matchId}"]`).forEach(inp => {
+    inp.disabled = true;
+  });
+  const btn = document.querySelector(`.btn-save-pred[data-match="${matchId}"]`);
+  if (btn) {
+    btn.textContent = '✓ Guardado';
+    btn.classList.add('saved');
+    btn.disabled = true;
+  }
+}
 
 /* ============================================================
    INIT
@@ -141,7 +165,7 @@ function exportJSON() {
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement('a');
   a.href     = url;
-  a.download = `quiniela-mundial-${(user.name || 'usuario').replace(/\s+/g, '-')}.json`;
+  a.download = `prode-mundial-${(user.name || 'usuario').replace(/\s+/g, '-')}.json`;
   a.click();
   URL.revokeObjectURL(url);
 }
@@ -175,7 +199,7 @@ function importJSON(file) {
       renderRanking();
       alert(`✅ Pronóstico de ${friend.name} importado: ${totalPoints} pts`);
     } catch {
-      alert('❌ Archivo inválido. Importá un JSON generado por esta quiniela.');
+      alert('❌ Archivo inválido. Importá un JSON generado por este Prode.');
     }
   };
   reader.readAsText(file);
@@ -320,12 +344,18 @@ function renderPredMatches() {
   document.querySelectorAll('.pred-input').forEach(input => {
     input.addEventListener('input', onPredInput);
   });
+
+  /* Listeners de botones de guardar */
+  document.querySelectorAll('.btn-save-pred:not([disabled])').forEach(btn => {
+    btn.addEventListener('click', () => lockMatch(btn.dataset.match));
+  });
 }
 
 /* HTML de una figurita */
 function figuritaHTML(m, pred) {
-  const pts = calcPoints(pred, m);
-  const time = localTimeTZ(m.date, TZ_REF);
+  const pts    = calcPoints(pred, m);
+  const time   = localTimeTZ(m.date, TZ_REF);
+  const locked = isLocked(m.id, m.state);
 
   /* Resultado real */
   let resultHTML = '<span class="fig-result">— : —</span>';
@@ -350,6 +380,11 @@ function figuritaHTML(m, pred) {
     ? `<img src="${m.away.logo}" alt="${m.away.name}" class="fig-logo" loading="lazy" onerror="this.style.display='none'">`
     : `<div class="fig-logo-placeholder">🏳</div>`;
 
+  /* Botón guardar: bloqueado si ya se guardó o el partido finalizó */
+  const saveBtn = locked
+    ? `<button class="btn-save-pred saved" disabled aria-label="Pronóstico guardado">✓ Guardado</button>`
+    : `<button class="btn-save-pred" data-match="${m.id}" aria-label="Guardar pronóstico de ${m.home.name} vs ${m.away.name}">Guardar pronóstico</button>`;
+
   return `
   <div class="figurita" data-id="${m.id}">
     <div class="fig-inner">
@@ -367,6 +402,7 @@ function figuritaHTML(m, pred) {
             value="${pred?.home ?? ''}"
             placeholder="—"
             aria-label="Goles de ${m.home.name}"
+            ${locked ? 'disabled' : ''}
           />
         </div>
         <div class="fig-vs">
@@ -381,6 +417,7 @@ function figuritaHTML(m, pred) {
             value="${pred?.away ?? ''}"
             placeholder="—"
             aria-label="Goles de ${m.away.name}"
+            ${locked ? 'disabled' : ''}
           />
         </div>
       </div>
@@ -392,6 +429,7 @@ function figuritaHTML(m, pred) {
         </div>
         ${ptsHTML}
       </div>
+      <div class="fig-save">${saveBtn}</div>
     </div>
   </div>`;
 }
@@ -399,6 +437,7 @@ function figuritaHTML(m, pred) {
 /* Listener de input de pronóstico — guardado inmediato en localStorage */
 function onPredInput(e) {
   const input   = e.target;
+  if (input.disabled) return; /* partido bloqueado, no procesar */
   const matchId = input.dataset.match;
   const team    = input.dataset.team; /* 'home' | 'away' */
   const val     = input.value.trim();
