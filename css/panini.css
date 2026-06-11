@@ -1,0 +1,383 @@
+/* ============================================================
+   QUINIELA MUNDIAL 2026 · css/panini.css
+   Estética de álbum de cromos: papel, bordes blancos, clásico
+   Se apoya en styles.css para variables y reset base
+   ============================================================ */
+
+/* --- Override de body para la página panini --- */
+.page-panini { background: var(--bg); }
+
+/* ============================================================
+   HEADER SCORE DISPLAY (marcador de puntos en tiempo real)
+   ============================================================ */
+.score-display {
+  display: flex; align-items: baseline; gap: 6px;
+  background: var(--gold-soft);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 16px;
+}
+.score-pts {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.4rem; color: var(--gold);
+  line-height: 1;
+}
+.score-lbl { font-size: 0.8rem; font-weight: 600; color: var(--gold); }
+.score-detail { font-size: 0.72rem; color: var(--text-dim); margin-left: 4px; }
+
+/* ============================================================
+   SETUP DE USUARIO (nombre + premio)
+   ============================================================ */
+.user-setup {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.user-setup-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 16px; display: flex; gap: 16px; flex-wrap: wrap;
+}
+.setup-field {
+  display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 200px;
+}
+.setup-field label {
+  font-size: 0.75rem; font-weight: 600; color: var(--text-dim); letter-spacing: 0.04em;
+}
+.setup-field input {
+  font-family: var(--font-body); font-size: 0.9rem;
+  color: var(--text); background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 9px 12px;
+  transition: border-color 0.2s;
+}
+.setup-field input:focus { outline: 2px solid var(--gold); outline-offset: 2px; border-color: var(--gold); }
+.setup-field input::placeholder { color: var(--text-dim); }
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
+.pan-container { max-width: 1200px; margin: 0 auto; padding: 24px 16px; }
+
+/* Títulos de sección */
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 800; font-size: 1.3rem;
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 20px;
+}
+.section-icon { font-size: 1.1em; }
+.section-hint {
+  font-family: var(--font-body); font-size: 0.75rem;
+  font-weight: 400; color: var(--text-dim); margin-left: auto;
+}
+
+/* ============================================================
+   TABLA DE POSICIONES POR GRUPO (standings)
+   ============================================================ */
+.groups-section { margin-bottom: 48px; }
+
+.groups-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.group-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.group-card-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 14px;
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 0.9rem; color: var(--gold);
+  letter-spacing: 0.06em; text-transform: uppercase;
+}
+.group-table {
+  width: 100%; border-collapse: collapse; font-size: 0.78rem;
+}
+.group-table th {
+  padding: 6px 8px; text-align: right;
+  font-weight: 600; color: var(--text-dim); font-size: 0.7rem;
+  border-bottom: 1px solid var(--line);
+}
+.group-table th:first-child { text-align: left; }
+.group-table td {
+  padding: 8px 8px; text-align: right; color: var(--text-dim);
+  border-bottom: 1px solid rgba(31,45,69,0.5);
+}
+.group-table td:first-child { text-align: left; }
+.group-table tr:last-child td { border-bottom: none; }
+.group-table tr:hover td { background: var(--surface-2); }
+
+.team-cell {
+  display: flex; align-items: center; gap: 8px;
+}
+.team-cell img { width: 22px; height: 22px; object-fit: contain; }
+.team-cell span { font-weight: 600; color: var(--text); }
+
+.pts-cell { font-family: var(--font-display); font-weight: 700; color: var(--gold); font-size: 0.88rem; }
+
+/* ============================================================
+   FIGURITAS DE PRONÓSTICO (estética álbum de cromos)
+   ============================================================ */
+.preds-section { margin-bottom: 48px; }
+
+/* Agrupación por día */
+.pred-day { margin-bottom: 32px; }
+.pred-day-title {
+  font-family: var(--font-display);
+  font-weight: 700; font-size: 1rem; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  margin-bottom: 14px; padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.pred-grid {
+  display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+
+/* La figurita: aspecto de cromo coleccionable */
+.figurita {
+  background: linear-gradient(150deg, #f0ead8, #e8e0c8);
+  border: 3px solid #ffffff;
+  border-radius: 8px;
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.25),
+    0 8px 24px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.7);
+  position: relative; overflow: hidden; color: #1a1a2e;
+}
+
+/* Textura de papel: ruido CSS con pseudo-elemento */
+.figurita::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none; z-index: 0; border-radius: inherit;
+}
+
+.fig-inner { position: relative; z-index: 1; }
+
+/* Cabecera de la figurita: branding del torneo */
+.fig-header {
+  background: linear-gradient(90deg, #1a1a2e, #2d1f5e);
+  color: #f5c842;
+  padding: 6px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-family: var(--font-display);
+}
+.fig-badge {
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.fig-group-tag {
+  font-size: 0.58rem; font-weight: 600; opacity: 0.8;
+}
+
+/* Cuerpo: equipos + inputs de pronóstico */
+.fig-body {
+  display: flex; align-items: stretch;
+  padding: 12px;
+  gap: 8px;
+}
+.fig-team {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; gap: 6px; text-align: center;
+}
+.fig-logo {
+  width: 48px; height: 48px; object-fit: contain;
+}
+.fig-logo-placeholder {
+  width: 48px; height: 48px;
+  background: rgba(26,26,46,0.1);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-size: 1.4rem;
+}
+.fig-name {
+  font-family: var(--font-display); font-weight: 700; font-size: 0.72rem;
+  color: #1a1a2e; line-height: 1.2; text-align: center;
+  max-width: 80px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+
+/* Input de pronóstico (goles) */
+.pred-input {
+  width: 48px; height: 42px;
+  font-family: var(--font-display); font-weight: 800; font-size: 1.3rem;
+  text-align: center; color: #1a1a2e;
+  background: rgba(255,255,255,0.7);
+  border: 2px solid rgba(26,26,46,0.2); border-radius: 8px;
+  -moz-appearance: textfield;
+  transition: border-color 0.15s, background 0.15s;
+}
+.pred-input::-webkit-outer-spin-button,
+.pred-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.pred-input:focus { outline: none; border-color: #f5c842; background: #fff; }
+.pred-input::placeholder { color: rgba(26,26,46,0.3); font-size: 1rem; }
+
+/* Separador central "vs" */
+.fig-vs {
+  display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 4px; padding: 0 4px;
+}
+.fig-vs-text {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.65rem;
+  color: rgba(26,26,46,0.5); letter-spacing: 0.05em;
+}
+
+/* Footer de la figurita: hora, resultado real, puntos */
+.fig-footer {
+  border-top: 1px solid rgba(26,26,46,0.15);
+  padding: 8px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.72rem;
+}
+.fig-time { color: rgba(26,26,46,0.6); font-weight: 600; }
+.fig-result-wrap { display: flex; align-items: center; gap: 6px; }
+.fig-result-label { font-size: 0.62rem; color: rgba(26,26,46,0.5); font-weight: 600; text-transform: uppercase; }
+.fig-result {
+  font-family: var(--font-display); font-weight: 800; font-size: 0.9rem;
+  color: #1a1a2e;
+}
+
+/* Badge de puntos obtenidos */
+.fig-points {
+  font-size: 0.72rem; font-weight: 700;
+  border-radius: 999px; padding: 2px 9px;
+}
+.fig-pts-3  { background: #e8f8ee; color: #1a7a40; border: 1px solid #a3dbb5; } /* exacto */
+.fig-pts-1  { background: #e8f0fe; color: #1a4fb5; border: 1px solid #a3bffa; } /* ganador */
+.fig-pts-0  { background: #fde8e8; color: #a01a1a; border: 1px solid #f5a3a3; } /* fallo */
+.fig-pts-nd { color: rgba(26,26,46,0.4); font-style: italic; }                  /* pendiente */
+
+/* Estado en vivo en la figurita */
+.fig-live-badge {
+  font-size: 0.6rem; font-weight: 700; color: #e0453a;
+  background: rgba(224,69,58,0.1); border: 1px solid rgba(224,69,58,0.3);
+  border-radius: 999px; padding: 2px 7px; animation: pulseLive 1.6s infinite;
+}
+
+/* ============================================================
+   MODO AMIGOS
+   ============================================================ */
+.friends-section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 40px;
+}
+
+/* Banner del premio */
+.prize-banner {
+  background: var(--gold-soft); border: 1px solid var(--gold-border);
+  border-radius: var(--radius-sm); padding: 12px 16px;
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.9rem; color: var(--text); margin-bottom: 20px;
+}
+.prize-icon { font-size: 1.3em; }
+
+/* Caja de código de grupo */
+.friend-desc { font-size: 0.84rem; color: var(--text-dim); margin-bottom: 16px; line-height: 1.6; }
+
+.friend-actions {
+  display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+  margin-bottom: 24px;
+}
+
+.code-display {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--surface-2); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 9px 14px;
+}
+.code-label { font-size: 0.75rem; color: var(--text-dim); font-weight: 600; }
+.code-value {
+  font-family: var(--font-display); font-weight: 800;
+  font-size: 1.1rem; color: var(--gold); letter-spacing: 0.12em;
+}
+.btn-code-gen {
+  font-family: var(--font-body); font-size: 0.72rem; font-weight: 600;
+  color: var(--text-dim); background: transparent;
+  border: 1px solid var(--line); border-radius: 6px;
+  padding: 4px 10px; cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.btn-code-gen:hover { color: var(--gold); border-color: var(--gold-border); }
+.btn-code-gen:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* Botones de exportar/importar */
+.btn-friend {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 600;
+  color: var(--text); background: var(--surface-2);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: 10px 16px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.btn-friend:hover { color: var(--gold); border-color: var(--gold-border); background: var(--gold-soft); }
+.btn-friend:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.btn-import-label { user-select: none; }
+
+/* Tabla de clasificación */
+.ranking-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  margin-bottom: 14px;
+}
+.ranking-empty { font-size: 0.86rem; color: var(--text-dim); padding: 16px 0; }
+
+.ranking-table {
+  width: 100%; border-collapse: collapse; font-size: 0.84rem;
+}
+.ranking-table th {
+  text-align: left; font-weight: 600; color: var(--text-dim);
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 8px 12px; border-bottom: 1px solid var(--line);
+}
+.ranking-table td {
+  padding: 10px 12px; border-bottom: 1px solid rgba(31,45,69,0.5);
+  color: var(--text-dim);
+}
+.ranking-table tr:last-child td { border-bottom: none; }
+.ranking-table tr:hover td { background: var(--surface-2); }
+.ranking-table td:first-child { color: var(--text); font-weight: 700; }
+.rank-name { font-weight: 600; color: var(--text); }
+.rank-pts  { font-family: var(--font-display); font-weight: 800; color: var(--gold); font-size: 1rem; }
+.rank-me   { background: var(--gold-soft); }
+.rank-1 td:first-child { color: var(--gold); }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.pan-footer {
+  text-align: center; padding: 20px 16px 40px;
+  font-size: 0.74rem; color: var(--text-dim);
+  border-top: 1px solid var(--line);
+  max-width: 1200px; margin: 0 auto;
+}
+.pan-footer a { color: var(--gold); text-decoration: none; }
+.pan-footer a:hover { text-decoration: underline; }
+
+/* ============================================================
+   TABLET ≥ 768px
+   ============================================================ */
+@media (min-width: 768px) {
+  .groups-grid { grid-template-columns: repeat(2, 1fr); }
+  .pred-grid   { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   DESKTOP ≥ 1024px
+   ============================================================ */
+@media (min-width: 1024px) {
+  .groups-grid { grid-template-columns: repeat(3, 1fr); }
+  .pred-grid   { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ============================================================
+   PREFERS-REDUCED-MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .fig-live-badge { animation: none; }
+}

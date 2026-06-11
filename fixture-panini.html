@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Quiniela · Mundial 2026 · Praxia</title>
+  <meta name="description" content="Armá tu quiniela del Mundial 2026, compará con amigos y seguí tu puntaje en tiempo real." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/panini.css" />
+</head>
+<body class="page-panini">
+
+  <!-- Header compartido: tabs + marcador propio -->
+  <header class="topbar">
+    <div class="gold-line" aria-hidden="true"></div>
+    <div class="topbar-inner">
+
+      <nav class="page-tabs" aria-label="Páginas del fixture">
+        <a href="index.html"          class="page-tab">⚽ Fixture en Vivo</a>
+        <a href="fixture-panini.html" class="page-tab active" aria-current="page">🃏 Mi Quiniela</a>
+      </nav>
+
+      <!-- Marcador de puntos del usuario -->
+      <div class="score-display" id="scoreDisplay" aria-live="polite">
+        <span class="score-pts" id="totalPts">0</span>
+        <span class="score-lbl">pts</span>
+        <span class="score-detail" id="scoreDetail">0 exactos · 0 ganadores</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Setup de usuario: nombre y premio -->
+  <section class="user-setup">
+    <div class="user-setup-inner">
+      <div class="setup-field">
+        <label for="inputName">Tu nombre en la quiniela</label>
+        <input type="text" id="inputName" placeholder="Ej: Marcos" maxlength="30" autocomplete="off" />
+      </div>
+      <div class="setup-field">
+        <label for="inputPrize">El ganador se lleva:</label>
+        <input type="text" id="inputPrize" placeholder="Ej: Pizza para todos 🍕" maxlength="60" autocomplete="off" />
+      </div>
+    </div>
+  </section>
+
+  <main class="pan-container">
+
+    <!-- ===== TABLA DE POSICIONES POR GRUPOS ===== -->
+    <section class="groups-section" aria-label="Tabla de posiciones por grupo">
+      <h2 class="section-title">
+        <span class="section-icon">📊</span> Tabla de posiciones
+      </h2>
+      <div id="groupsGrid" class="groups-grid">
+        <div class="loading"><div class="spinner"></div><p>Cargando grupos…</p></div>
+      </div>
+    </section>
+
+    <!-- ===== MIS PRONÓSTICOS ===== -->
+    <section class="preds-section" aria-label="Mis pronósticos">
+      <h2 class="section-title">
+        <span class="section-icon">🃏</span> Mis pronósticos
+        <span class="section-hint">Ingresá el resultado que predecís</span>
+      </h2>
+      <div id="predMatches" class="pred-matches">
+        <div class="loading"><div class="spinner"></div><p>Cargando partidos…</p></div>
+      </div>
+    </section>
+
+    <!-- ===== MODO AMIGOS ===== -->
+    <section class="friends-section" aria-label="Modo amigos">
+      <h2 class="section-title"><span class="section-icon">👥</span> Modo amigos</h2>
+
+      <!-- Premio del grupo -->
+      <div class="prize-banner" id="prizeBanner" hidden>
+        <span class="prize-icon">🏆</span>
+        <span>El ganador se lleva: <strong id="prizeText"></strong></span>
+      </div>
+
+      <!-- Código de grupo -->
+      <div class="group-code-box">
+        <p class="friend-desc">Compartí tu código de grupo, exportá tus pronósticos e importá los de tus amigos para armar la tabla.</p>
+        <div class="friend-actions">
+          <div class="code-display">
+            <span class="code-label">Código de grupo:</span>
+            <span class="code-value" id="groupCode">——</span>
+            <button class="btn-code-gen" id="btnGenCode" aria-label="Generar nuevo código de grupo">Generar</button>
+          </div>
+          <button class="btn-friend" id="btnExport" aria-label="Exportar mis pronósticos como archivo JSON">
+            ⬇ Exportar mis pronósticos
+          </button>
+          <label class="btn-friend btn-import-label" aria-label="Importar pronóstico de un amigo">
+            ⬆ Importar pronóstico de amigo
+            <input type="file" id="importFile" accept=".json" class="sr-only" />
+          </label>
+        </div>
+      </div>
+
+      <!-- Tabla de clasificación -->
+      <div class="ranking-section">
+        <h3 class="ranking-title">🏅 Clasificación del grupo</h3>
+        <div id="rankingWrap" class="ranking-wrap">
+          <p class="ranking-empty">Importá pronósticos de amigos para ver la tabla.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pan-footer">
+    <p>Datos: API pública de ESPN · Los pronósticos se guardan en tu navegador · <a href="index.html">Volver al fixture en vivo</a></p>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="js/panini.js"></script>
+</body>
+</html>

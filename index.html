@@ -3,41 +3,123 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fixture Mundial 2026 · Horario de España</title>
-  <meta name="description" content="Calendario del Mundial 2026 con resultados en vivo, horarios de España peninsular y resúmenes de YouTube." />
+  <title>Fixture Mundial 2026 · Praxia</title>
+  <meta name="description" content="Fixture en vivo del Mundial 2026 — horarios, resultados y formaciones." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 
+  <!-- Cursor dorado personalizado, solo visible en desktop -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+
+  <!-- Header sticky principal -->
   <header class="topbar">
-    <div class="tricolor"></div>
+    <div class="gold-line" aria-hidden="true"></div>
     <div class="topbar-inner">
-      <div class="brand">
-        <span class="brand-cup">⚽ MUNDIAL 2026</span>
-        <span class="brand-sub">Fixture en vivo · Hora de España peninsular</span>
-      </div>
-      <div class="topbar-actions">
-        <label class="toggle">
+
+      <!-- Tabs de navegación entre páginas -->
+      <nav class="page-tabs" aria-label="Páginas del fixture">
+        <a href="index.html" class="page-tab active" aria-current="page">⚽ Fixture en Vivo</a>
+        <a href="fixture-panini.html" class="page-tab">🃏 Mi Quiniela</a>
+      </nav>
+
+      <!-- Controles del header -->
+      <div class="topbar-controls">
+
+        <!-- Selector de zona horaria -->
+        <label class="sr-only" for="tzSelect">Zona horaria</label>
+        <select id="tzSelect" class="tz-select">
+          <option value="Europe/Madrid">🇪🇸 España</option>
+          <option value="America/Argentina/Buenos_Aires">🇦🇷 Argentina</option>
+          <option value="America/Mexico_City">🇲🇽 México</option>
+          <option value="America/Bogota">🇨🇴 Colombia</option>
+          <option value="America/Santiago">🇨🇱 Chile</option>
+          <option value="America/Montevideo">🇺🇾 Uruguay</option>
+          <option value="Europe/Paris">🇫🇷 Francia</option>
+          <option value="Europe/London">🇬🇧 Reino Unido</option>
+          <option value="America/New_York">🇺🇸 EE.UU. Este</option>
+          <option value="America/Los_Angeles">🇺🇸 EE.UU. Oeste</option>
+        </select>
+
+        <!-- Toggle lista / grilla -->
+        <div class="view-toggle" role="group" aria-label="Modo de vista">
+          <button id="btnList" class="view-btn active" aria-label="Vista lista" aria-pressed="true">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="2"    width="14" height="2.5" rx="1" fill="currentColor"/>
+              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor"/>
+              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor"/>
+            </svg>
+          </button>
+          <button id="btnGrid" class="view-btn" aria-label="Vista cuadrícula" aria-pressed="false">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+              <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+              <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+              <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Toggle prime time -->
+        <label class="toggle" title="Solo partidos entre 15:00 y 23:00">
           <input type="checkbox" id="primeOnly" />
           <span class="toggle-pill"></span>
-          <span class="toggle-label">Solo 15–23h</span>
+          <span class="toggle-label">Prime</span>
         </label>
-        <button id="btnImagen" class="btn-img" title="Descargar el día visible como imagen PNG">
-          ⬇ Imagen del día
+
+        <!-- Exportar PNG -->
+        <button id="btnImagen" class="btn-action" aria-label="Descargar el día visible como imagen PNG">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden="true">
+            <path d="M7.5 1v9M4 7l3.5 3.5L11 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1 12h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-label">PNG</span>
         </button>
       </div>
     </div>
+
+    <!-- Navegación de días -->
     <nav id="dayNav" class="day-nav" aria-label="Días del torneo"></nav>
   </header>
 
+  <!-- Hero Banner: estadio nocturno + silueta artística + partículas -->
+  <section class="hero" aria-label="Banner del Mundial 2026">
+    <img
+      src="https://images.unsplash.com/photo-1508098682722-e99c643e7f76?w=1920&q=80"
+      alt="" class="hero-bg" loading="eager" aria-hidden="true"
+    />
+    <div class="hero-overlay" aria-hidden="true"></div>
+
+    <!-- Silueta artística: filtro grayscale + opacity muy baja -->
+    <div class="hero-player" aria-hidden="true">
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Lionel_Messi_20180626.jpg/800px-Lionel_Messi_20180626.jpg"
+        alt="" class="player-silhouette" loading="eager"
+      />
+    </div>
+
+    <!-- Partículas CSS animadas sutiles -->
+    <div class="hero-particles" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="hero-content">
+      <h1 class="hero-title" id="heroTitle">MUNDIAL<br>2026</h1>
+      <p class="hero-sub" id="heroSub">
+        Fixture en vivo · <span id="tzLabel">Hora de España peninsular</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Contenido principal -->
   <main class="container">
     <div id="status" class="status-bar" hidden></div>
     <section id="capture" class="capture-zone">
-      <div id="matches" class="matches">
+      <div id="matches">
         <div class="loading">
           <div class="spinner"></div>
           <p>Cargando partidos…</p>
@@ -46,16 +128,29 @@
     </section>
 
     <div class="legend">
-      <span class="legend-item"><i class="dot dot-prime"></i> Horario de oro (15–23h España)</span>
-      <span class="legend-item"><i class="dot dot-live"></i> En vivo</span>
-      <span class="legend-item"><i class="dot dot-final"></i> Finalizado</span>
+      <span class="legend-item"><i class="dot dot-prime" aria-hidden="true"></i> Horario de oro (15–23h)</span>
+      <span class="legend-item"><i class="dot dot-live" aria-hidden="true"></i> En vivo</span>
+      <span class="legend-item"><i class="dot dot-final" aria-hidden="true"></i> Finalizado</span>
     </div>
 
     <footer class="footnote">
-      <p>Datos: API pública de ESPN · Actualización automática cada 60 segundos · Horarios convertidos a Europa/Madrid.</p>
+      <p>Datos: API pública de ESPN · Actualización cada 60 s · <span id="tzFooter">Horarios en Europa/Madrid</span></p>
     </footer>
   </main>
 
+  <!-- Modal de formaciones -->
+  <div id="formationModal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Formación del partido" hidden>
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose" aria-label="Cerrar modal">✕</button>
+      <div id="modalContent" class="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- CDN: GSAP, Vanilla Tilt, html2canvas — en orden para garantizar disponibilidad -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/vanilla-tilt@1.8.1/dist/vanilla-tilt.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
