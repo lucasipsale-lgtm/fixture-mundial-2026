@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fixture Mundial 2026 · Horario de España</title>
+  <meta name="description" content="Calendario del Mundial 2026 con resultados en vivo, horarios de España peninsular y resúmenes de YouTube." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="tricolor"></div>
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-cup">⚽ MUNDIAL 2026</span>
+        <span class="brand-sub">Fixture en vivo · Hora de España peninsular</span>
+      </div>
+      <div class="topbar-actions">
+        <label class="toggle">
+          <input type="checkbox" id="primeOnly" />
+          <span class="toggle-pill"></span>
+          <span class="toggle-label">Solo 15–23h</span>
+        </label>
+        <button id="btnImagen" class="btn-img" title="Descargar el día visible como imagen PNG">
+          ⬇ Imagen del día
+        </button>
+      </div>
+    </div>
+    <nav id="dayNav" class="day-nav" aria-label="Días del torneo"></nav>
+  </header>
+
+  <main class="container">
+    <div id="status" class="status-bar" hidden></div>
+    <section id="capture" class="capture-zone">
+      <div id="matches" class="matches">
+        <div class="loading">
+          <div class="spinner"></div>
+          <p>Cargando partidos…</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="legend">
+      <span class="legend-item"><i class="dot dot-prime"></i> Horario de oro (15–23h España)</span>
+      <span class="legend-item"><i class="dot dot-live"></i> En vivo</span>
+      <span class="legend-item"><i class="dot dot-final"></i> Finalizado</span>
+    </div>
+
+    <footer class="footnote">
+      <p>Datos: API pública de ESPN · Actualización automática cada 60 segundos · Horarios convertidos a Europa/Madrid.</p>
+    </footer>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
