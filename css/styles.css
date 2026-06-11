@@ -36,7 +36,23 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  position: relative;
+  /* Cursor pelota de fútbol SVG inline — visible en fondos oscuros y claros */
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='white' stroke='%23333' stroke-width='1.5'/%3E%3Cpolygon points='16,4 19,12 27,12 21,17 23,25 16,20 9,25 11,17 5,12 13,12' fill='%23222' opacity='0.85'/%3E%3C/svg%3E"), auto;
 }
+
+/* Fondo atmosférico global: imagen fija a opacity 0.07 vía ::before para no afectar legibilidad */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  background-image: url('assets/images/argentina-campeon.png.webp');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  opacity: 0.07;
+  pointer-events: none;
+}
+
 img { display: block; max-width: 100%; }
 
 /* --- Utilitario accesibilidad --- */
@@ -44,21 +60,6 @@ img { display: block; max-width: 100%; }
   position: absolute; width: 1px; height: 1px;
   padding: 0; margin: -1px; overflow: hidden;
   clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-}
-
-/* ============================================================
-   CURSOR PERSONALIZADO (solo desktop con puntero fino)
-   ============================================================ */
-.cursor {
-  display: none;
-  position: fixed; top: 0; left: 0;
-  width: 12px; height: 12px;
-  background: var(--gold);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.08s ease, opacity 0.2s ease;
 }
 
 /* ============================================================
@@ -207,87 +208,6 @@ img { display: block; max-width: 100%; }
 .day-chip:hover { color: var(--text); border-color: var(--gold-border); }
 .day-chip.active { color: var(--bg); background: var(--gold); border-color: var(--gold); font-weight: 700; }
 .day-chip:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
-
-/* ============================================================
-   HERO BANNER
-   ============================================================ */
-.hero {
-  position: relative;
-  height: 60vh; min-height: 300px;
-  overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-  /* Imagen local: messi-hero.png (1280×720) como fondo de la sección */
-  background-image: url('../assets/images/messi-hero.png.webp');
-  background-size: cover;
-  background-position: center top;
-}
-
-/* Overlay degradado oscuro — imagen sutil pero reconocible */
-.hero-overlay {
-  position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(
-    135deg,
-    rgba(8,12,20,0.85) 0%,
-    rgba(8,12,20,0.5)  50%,
-    rgba(8,12,20,0.75) 100%
-  );
-}
-
-/* Partículas CSS animadas en el hero */
-.hero-particles {
-  position: absolute; inset: 0; z-index: 2; overflow: hidden; pointer-events: none;
-}
-.hero-particles span {
-  position: absolute; width: 3px; height: 3px;
-  background: var(--gold); border-radius: 50%; opacity: 0;
-  animation: floatParticle var(--dur, 6s) var(--delay, 0s) ease-in-out infinite;
-}
-.hero-particles span:nth-child(1)  { left: 8%;  --delay:0s;    --dur:7s;   }
-.hero-particles span:nth-child(2)  { left: 22%; --delay:1.3s;  --dur:5.5s; }
-.hero-particles span:nth-child(3)  { left: 38%; --delay:0.6s;  --dur:8s;   }
-.hero-particles span:nth-child(4)  { left: 52%; --delay:2.1s;  --dur:6.5s; }
-.hero-particles span:nth-child(5)  { left: 66%; --delay:0.9s;  --dur:7.5s; }
-.hero-particles span:nth-child(6)  { left: 14%; --delay:3.2s;  --dur:6s;   }
-.hero-particles span:nth-child(7)  { left: 80%; --delay:1.6s;  --dur:5.2s; }
-.hero-particles span:nth-child(8)  { left: 33%; --delay:2.6s;  --dur:7s;   }
-.hero-particles span:nth-child(9)  { left: 57%; --delay:0.4s;  --dur:8.5s; }
-.hero-particles span:nth-child(10) { left: 88%; --delay:1.9s;  --dur:6.2s; }
-
-@keyframes floatParticle {
-  0%   { opacity: 0; transform: translateY(80px) scale(0.5); }
-  20%  { opacity: 0.9; }
-  80%  { opacity: 0.3; }
-  100% { opacity: 0; transform: translateY(-100vh) scale(1.5); }
-}
-
-/* Contenido del hero */
-.hero-content {
-  position: relative; z-index: 3;
-  text-align: center; padding: 0 20px;
-}
-
-.hero-title {
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: clamp(3.2rem, 13vw, 8rem);
-  line-height: 0.88;
-  color: #fff;
-  -webkit-text-stroke: 1px var(--gold);
-  text-stroke: 1px var(--gold);
-  letter-spacing: -0.02em;
-  opacity: 0; /* GSAP anima la entrada */
-  text-shadow: 0 0 80px rgba(245,184,46,0.25);
-}
-
-.hero-sub {
-  font-family: var(--font-body);
-  font-size: clamp(0.72rem, 2.5vw, 0.95rem);
-  color: var(--text-dim);
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  margin-top: 16px;
-  opacity: 0; /* GSAP anima la entrada */
-}
 
 /* ============================================================
    CONTENIDO PRINCIPAL
@@ -519,13 +439,9 @@ img { display: block; max-width: 100%; }
    PREFERS-REDUCED-MOTION — desactiva todas las animaciones
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  .badge-live, .spinner, .gold-line, .hero-particles { animation: none; }
-  .hero-particles { display: none; }
+  .badge-live, .spinner, .gold-line { animation: none; }
   html { scroll-behavior: auto; }
   .match { transition: none; }
-  .hero { background-attachment: scroll; } /* fallback para reduced-motion */
-  .cursor { display: none !important; }
-  .hero-title, .hero-sub { opacity: 1 !important; }
 }
 
 /* ============================================================
@@ -533,8 +449,6 @@ img { display: block; max-width: 100%; }
    ============================================================ */
 @media (min-width: 768px) {
   body { font-size: 16px; }
-  .hero { height: 72vh; }
-  /* hero ocupa más altura en tablet */
   .match-grid { grid-template-columns: repeat(2, 1fr); }
   .match-grid.grid-mode { grid-template-columns: repeat(3, 1fr); }
   .day-title { font-size: 1.6rem; }
@@ -544,10 +458,6 @@ img { display: block; max-width: 100%; }
    DESKTOP ≥ 1024px
    ============================================================ */
 @media (min-width: 1024px) {
-  .hero { height: 100vh; }
-  .cursor { display: block; }
-  body { cursor: none; }
-  a, button, select, input, label[for], label { cursor: none; }
   .match-grid { grid-template-columns: repeat(2, 1fr); }
   .match-grid.grid-mode { grid-template-columns: repeat(4, 1fr); }
 }
