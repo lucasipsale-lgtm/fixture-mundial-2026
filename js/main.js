@@ -414,6 +414,8 @@ function render() {
   document.querySelectorAll('.btn-formation').forEach(btn => {
     btn.addEventListener('click', () => openModal(btn.dataset.matchId));
   });
+
+  initDragScroll();
 }
 
 /* --- HTML de una tarjeta de partido --- */
@@ -533,6 +535,43 @@ async function exportPNG() {
     $btnImagen.disabled = false;
     $btnImagen.querySelector('.btn-label').textContent = 'PNG';
   }
+}
+
+/* ============================================================
+   DRAG SCROLL HORIZONTAL CON MOUSE
+   ============================================================ */
+function initDragScroll() {
+  const grids = document.querySelectorAll('.match-grid');
+  grids.forEach(grid => {
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+    grid.style.overflowX = 'auto';
+    grid.style.cursor = 'grab';
+    grid.style.scrollbarWidth = 'none';
+    grid.style.userSelect = 'none';
+    grid.addEventListener('mousedown', e => {
+      isDown = true;
+      grid.style.cursor = 'grabbing';
+      startX = e.pageX - grid.offsetLeft;
+      scrollLeft = grid.scrollLeft;
+    });
+    grid.addEventListener('mouseleave', () => {
+      isDown = false;
+      grid.style.cursor = 'grab';
+    });
+    grid.addEventListener('mouseup', () => {
+      isDown = false;
+      grid.style.cursor = 'grab';
+    });
+    grid.addEventListener('mousemove', e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - grid.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      grid.scrollLeft = scrollLeft - walk;
+    });
+  });
 }
 
 /* ============================================================

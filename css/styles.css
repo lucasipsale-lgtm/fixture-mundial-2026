@@ -1,28 +1,34 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Noto+Sans:wght@400;600;700&display=swap');
+
 /* ============================================================
    FIXTURE MUNDIAL 2026 · css/styles.css
-   Mobile first · Paleta: #080C14 / #111827 / #F5B82E / #EDF1F7
-   Tipografía: Sora 800 títulos · Inter 400/600 cuerpo
+   Mobile first · Paleta FIFA 2026 · Tipografía: Barlow Condensed / Noto Sans
    ============================================================ */
 
 /* --- Variables globales --- */
 :root {
-  --bg:          #080C14;
-  --surface:     #111827;
-  --surface-2:   #1a2336;
-  --line:        #1f2d45;
-  --text:        #EDF1F7;
-  --text-dim:    #8899b0;
-  --gold:        #F5B82E;
-  --gold-soft:   rgba(245, 184, 46, 0.10);
-  --gold-border: rgba(245, 184, 46, 0.35);
-  --red:         #e0453a;
-  --green:       #1fae62;
-  --blue:        #3b82f6;
-  --radius:      16px;
-  --radius-sm:   10px;
-  --ease:        cubic-bezier(0.4, 0, 0.2, 1);
-  --font-display:'Sora',    system-ui, sans-serif;
-  --font-body:   'Inter',   system-ui, sans-serif;
+  --bg:            #020F2A;
+  --surface:       #0A1628;
+  --surface-2:     #112040;
+  --line:          #1E3A5F;
+  --text:          #EDF1F7;
+  --text-dim:      #8899b0;
+  --gold:          #D4AF37;
+  --gold-soft:     rgba(212, 175, 55, 0.10);
+  --gold-border:   rgba(212, 175, 55, 0.35);
+  --red:           #E61D25;
+  --green:         #3CAC3B;
+  --blue:          #2A398D;
+  --color-primary: #020F2A;
+  --color-gold:    #D4AF37;
+  --color-red:     #E61D25;
+  --color-green:   #3CAC3B;
+  --color-blue:    #2A398D;
+  --radius:        16px;
+  --radius-sm:     10px;
+  --ease:          cubic-bezier(0.4, 0, 0.2, 1);
+  --font-display:  'Barlow Condensed', system-ui, sans-serif;
+  --font-body:     'Noto Sans',        system-ui, sans-serif;
 }
 
 /* --- Reset base --- */
@@ -42,23 +48,22 @@ body {
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   position: relative;
-  /* Cursor pelota dorada SVG — visible en fondos oscuros y claros */
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='35%25'%3E%3Cstop offset='0%25' stop-color='%23FFE082'/%3E%3Cstop offset='100%25' stop-color='%23F5B82E' stop-opacity='0.7'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='14' cy='14' r='12' fill='url(%23g)' stroke='rgba(245,184,46,0.4)' stroke-width='1'/%3E%3Cpolygon points='14,4 16.5,10.5 23,10.5 18,14.5 20,21 14,17 8,21 10,14.5 5,10.5 11.5,10.5' fill='rgba(180,100,0,0.5)'/%3E%3C/svg%3E") 14 14, auto;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='rgba(212,175,55,0.5)' stroke='rgba(212,175,55,0.8)' stroke-width='1'/%3E%3C/svg%3E") 10 10, auto;
 }
 
-/* Overlay oscuro fijo sobre la imagen: hace el contenido perfectamente legible */
+/* Overlay oscuro fijo sobre la imagen */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(8, 12, 20, 0.91);
+  background: rgba(2, 15, 42, 0.65);
   z-index: 0;
   pointer-events: none;
 }
 
-/* Cursor dorado en todos los elementos interactivos para consistencia */
-a, button, input, select, .day-chip, .match, .fig-card {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Cdefs%3E%3CradialGradient id='g' cx='40%25' cy='35%25'%3E%3Cstop offset='0%25' stop-color='%23FFE082'/%3E%3Cstop offset='100%25' stop-color='%23F5B82E' stop-opacity='0.7'/%3E%3C/radialGradient%3E%3C/defs%3E%3Ccircle cx='14' cy='14' r='12' fill='url(%23g)' stroke='rgba(245,184,46,0.4)' stroke-width='1'/%3E%3Cpolygon points='14,4 16.5,10.5 23,10.5 18,14.5 20,21 14,17 8,21 10,14.5 5,10.5 11.5,10.5' fill='rgba(180,100,0,0.5)'/%3E%3C/svg%3E") 14 14, auto;
+/* Cursor dorado en todos los elementos interactivos */
+a, button, .day-chip, .match, .fig-card {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='rgba(212,175,55,0.5)' stroke='rgba(212,175,55,0.8)' stroke-width='1'/%3E%3C/svg%3E") 10 10, auto;
 }
 
 img { display: block; max-width: 100%; }
@@ -238,7 +243,26 @@ img { display: block; max-width: 100%; }
 }
 .status-bar strong { color: var(--text); }
 
-.capture-zone { background: var(--bg); }
+.capture-zone { background: transparent; }
+
+/* Logo en navegación */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text);
+  white-space: nowrap;
+}
+.nav-logo {
+  height: 38px;
+  width: auto;
+  object-fit: contain;
+  filter: brightness(1) contrast(1);
+  flex-shrink: 0;
+}
 
 /* Título del día activo */
 .day-title {
@@ -256,48 +280,46 @@ img { display: block; max-width: 100%; }
    TARJETAS DE PARTIDO
    ============================================================ */
 .match-grid {
-  display: grid; grid-template-columns: 1fr;
-  gap: 12px; margin-bottom: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 14px;
+  width: 100%;
+  padding: 0 4px;
+  justify-items: stretch;
+  align-items: start;
+  margin-bottom: 28px;
 }
-.match-grid.grid-mode { grid-template-columns: repeat(2, 1fr); }
+.match-grid:has(> .match:only-child) {
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .match {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  background: rgba(2, 15, 42, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
   padding: 0;
   position: relative; overflow: hidden;
-  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* Fondo dividido: mitad izquierda color local, mitad derecha color visitante */
-.match-team-bg {
-  position: absolute; inset: 0;
-  display: flex; pointer-events: none; z-index: 0;
-}
-.match-bg-half {
-  flex: 1; position: relative; overflow: hidden;
-}
-.match-bg-logo {
-  position: absolute; inset: 0;
-  background-size: 60%; background-repeat: no-repeat; background-position: center;
-  opacity: 0.08;
-}
+.match-team-bg { display: none; }
 
 /* Card prime (horario de oro) */
 .match.prime {
-  border-color: rgba(245,184,46,0.45);
-  box-shadow: 0 0 0 1px rgba(245,184,46,0.12);
+  background: rgba(2, 15, 42, 0.78);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.12);
 }
 
-/* Hover elevación — solo cuando Vanilla Tilt no está activo -->*/
-@media (hover: hover) {
-  .match:not([data-tilt]):hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-  }
+.match:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 /* Contenido de la card sobre el fondo */
@@ -459,15 +481,5 @@ img { display: block; max-width: 100%; }
    ============================================================ */
 @media (min-width: 768px) {
   body { font-size: 16px; }
-  .match-grid { grid-template-columns: repeat(2, 1fr); }
-  .match-grid.grid-mode { grid-template-columns: repeat(3, 1fr); }
   .day-title { font-size: 1.6rem; }
-}
-
-/* ============================================================
-   DESKTOP ≥ 1024px
-   ============================================================ */
-@media (min-width: 1024px) {
-  .match-grid { grid-template-columns: repeat(2, 1fr); }
-  .match-grid.grid-mode { grid-template-columns: repeat(4, 1fr); }
 }
