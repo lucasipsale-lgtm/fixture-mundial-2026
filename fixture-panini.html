@@ -15,27 +15,30 @@
 
   <!-- Header compartido: tabs + marcador propio -->
   <header class="topbar">
-    <div class="gold-line" aria-hidden="true"></div>
-    <div class="topbar-inner">
-
-      <!-- Brand / Logo -->
-      <div class="brand">
-        <img src="assets/images/logo-blanco.png.png" alt="FIFA World Cup 2026" class="nav-logo" loading="lazy">
-        MUNDIAL 2026
+    <div class="tricolor"></div>
+    <nav class="navbar">
+      <a href="index.html" class="nav-logo-link">
+        <img src="assets/images/logo-blanco.png" alt="FIFA World Cup 2026" class="nav-logo" loading="lazy">
+        <span class="brand-name">MUNDIAL 2026</span>
+      </a>
+      <button class="hamburger" id="hamburger" aria-label="Menú">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="nav-menu" id="navMenu">
+        <div class="nav-tabs">
+          <a href="index.html" class="nav-tab">⚽ Fixture</a>
+          <a href="fixture-panini.html" class="nav-tab active">🃏 Prode</a>
+        </div>
+        <div class="nav-controls">
+          <!-- Marcador de puntos del usuario -->
+          <div class="score-display" id="scoreDisplay" aria-live="polite">
+            <span class="score-pts" id="totalPts">0</span>
+            <span class="score-lbl">pts</span>
+            <span class="score-detail" id="scoreDetail">0 exactos · 0 ganadores</span>
+          </div>
+        </div>
       </div>
-
-      <nav class="page-tabs" aria-label="Páginas del fixture">
-        <a href="index.html"          class="page-tab">⚽ Fixture en Vivo</a>
-        <a href="fixture-panini.html" class="page-tab active" aria-current="page">🃏 Prode</a>
-      </nav>
-
-      <!-- Marcador de puntos del usuario -->
-      <div class="score-display" id="scoreDisplay" aria-live="polite">
-        <span class="score-pts" id="totalPts">0</span>
-        <span class="score-lbl">pts</span>
-        <span class="score-detail" id="scoreDetail">0 exactos · 0 ganadores</span>
-      </div>
-    </div>
+    </nav>
   </header>
 
   <!-- Setup de usuario: nombre y premio -->

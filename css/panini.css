@@ -30,7 +30,20 @@
   flex-shrink: 0;
 }
 
-/* Neutralizar el body::before de styles.css: panini maneja su propio overlay de fondo */
+/* ============================================================
+   PANINI — MEJORAS ESTÉTICAS
+   ============================================================ */
+
+/* Header del puntaje */
+.score-display {
+  background: rgba(2, 15, 42, 0.9);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+  padding: 6px 14px;
+}
+
+/* Neutralizar el body::before de styles.css: panini maneja su propio overlay */
 .page-panini::before {
   display: none;
 }
@@ -446,4 +459,102 @@
    ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .fig-live-badge { animation: none; }
+}
+
+/* ============================================================
+   FIGURITAS — REDISEÑO DARK GLASS
+   ============================================================ */
+.figurita {
+  background: rgba(2, 15, 42, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  position: relative; overflow: hidden; color: var(--text);
+  transition: transform 0.4s ease;
+}
+.figurita:hover { transform: translateY(-4px); }
+
+/* Textura sutil */
+.figurita::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 200px;
+  pointer-events: none; z-index: 0; border-radius: inherit;
+}
+
+/* Cabecera figurita */
+.fig-header {
+  background: linear-gradient(90deg, rgba(2, 15, 42, 0.9), rgba(26, 15, 60, 0.9));
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+}
+
+/* Textos internos ajustados al fondo oscuro */
+.fig-name     { color: var(--text); }
+.fig-vs-text  { color: var(--text-dim); }
+.fig-time     { color: var(--text-dim); }
+.fig-result   { color: var(--text); }
+.fig-result-label { color: var(--text-dim); }
+.fig-footer   { border-top-color: var(--line); }
+
+/* Inputs de pronóstico */
+.pred-input {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-align: center;
+  width: 52px;
+  height: 42px;
+  padding: 8px 4px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.pred-input:focus {
+  outline: none;
+  border-color: var(--color-gold);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* Botón guardar pronóstico */
+.btn-save-pred {
+  width: 100%;
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-save-pred:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.28);
+}
+.btn-save-pred.saved,
+.btn-save-pred:disabled {
+  background: rgba(60, 172, 59, 0.15);
+  border-color: var(--color-green);
+  color: var(--color-green);
+  cursor: default;
+}
+
+/* Encabezados de grupo */
+.group-card-header {
+  background: var(--surface-2);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+  padding: 10px 14px 6px;
+  margin-bottom: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-gold);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }

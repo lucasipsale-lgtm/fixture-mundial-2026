@@ -38,12 +38,10 @@ let viewMode    = localStorage.getItem('fixture_view') || 'list';
 const $matches   = document.getElementById('matches');
 const $dayNav    = document.getElementById('dayNav');
 const $status    = document.getElementById('status');
-const $primeOnly = document.getElementById('primeOnly');
 const $btnImagen = document.getElementById('btnImagen');
 const $tzSelect  = document.getElementById('tzSelect');
 const $btnList   = document.getElementById('btnList');
 const $btnGrid   = document.getElementById('btnGrid');
-const $cursor    = document.getElementById('cursor');
 const $modal     = document.getElementById('formationModal');
 const $modalContent = document.getElementById('modalContent');
 const $modalClose   = document.getElementById('modalClose');
@@ -59,10 +57,10 @@ function init() {
   setupViewToggle();
   setupHeroAnimations();
   setupModal();
-  $primeOnly.addEventListener('change', render);
-  $btnImagen.addEventListener('click', exportPNG);
+  if ($btnImagen) $btnImagen.addEventListener('click', exportPNG);
   loadData();
   setInterval(loadData, REFRESH_MS);
+  initNews();
 }
 
 /* ============================================================
@@ -70,11 +68,7 @@ function init() {
    Solo activo en dispositivos con puntero fino (no táctil)
    ============================================================ */
 function setupCursor() {
-  if (window.matchMedia('(pointer: coarse)').matches) return;
-  document.addEventListener('mousemove', e => {
-    $cursor.style.left = e.clientX + 'px';
-    $cursor.style.top  = e.clientY + 'px';
-  });
+  // Cursor handled via CSS
 }
 
 /* ============================================================
@@ -134,8 +128,10 @@ function applyViewMode() {
    ============================================================ */
 function setupHeroAnimations() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    document.getElementById('heroTitle').style.opacity = '1';
-    document.getElementById('heroSub').style.opacity   = '1';
+    const heroTitle = document.getElementById('heroTitle');
+    const heroSub   = document.getElementById('heroSub');
+    if (heroTitle) heroTitle.style.opacity = '1';
+    if (heroSub)   heroSub.style.opacity   = '1';
     return;
   }
   waitForGSAP(() => {
@@ -377,7 +373,6 @@ function buildDayNav() {
    ============================================================ */
 function render() {
   let matches = allMatches.filter(m => dayKey(m.date) === selectedDay);
-  if ($primeOnly.checked) matches = matches.filter(m => isPrime(m.date));
 
   const sample = allMatches.find(m => dayKey(m.date) === selectedDay);
   const lbl    = sample ? dayLabel(sample.date) : null;
@@ -385,7 +380,7 @@ function render() {
   if (!matches.length) {
     $matches.innerHTML = `
       ${lbl ? `<h2 class="day-title">${lbl.weekday} ${lbl.dayMonth}</h2>` : ''}
-      <div class="empty">No hay partidos${$primeOnly.checked ? ' en horario prime' : ''} este día.</div>`;
+      <div class="empty">No hay partidos este día.</div>`;
     return;
   }
 
@@ -535,6 +530,104 @@ async function exportPNG() {
     $btnImagen.disabled = false;
     $btnImagen.querySelector('.btn-label').textContent = 'PNG';
   }
+}
+
+/* ============================================================
+   NOTICIAS DEL MUNDIAL
+   ============================================================ */
+function initNews() {
+  const items = [
+    {
+      tag: 'Resumen',
+      headline: 'Los mejores goles de la fase de grupos',
+      source: 'FIFA+ · Mundial 2026',
+      url: 'https://www.youtube.com/results?search_query=mejores+goles+fase+grupos+Mundial+2026+FIFA',
+      emoji: '⚽'
+    },
+    {
+      tag: 'Entrevista',
+      headline: 'Las figuras que están brillando en el torneo',
+      source: 'ESPN · Mundial 2026',
+      url: 'https://www.youtube.com/results?search_query=figuras+brillando+Mundial+2026+entrevistas',
+      emoji: '🌟'
+    },
+    {
+      tag: 'Análisis',
+      headline: 'Así está el camino al título: favoritos y sorpresas',
+      source: 'YouTube · Mundial 2026',
+      url: 'https://www.youtube.com/results?search_query=favoritos+sorpresas+Mundial+2026+analisis',
+      emoji: '🏆'
+    }
+  ];
+
+  const track = document.getElementById('newsTrack');
+  if (!track) return;
+
+  track.innerHTML = items.map(item => `
+    <article class="news-card" onclick="window.open('${item.url}','_blank')">
+      <div class="news-thumb-placeholder">${item.emoji}</div>
+      <div class="news-body">
+        <span class="news-tag">${item.tag}</span>
+        <h3 class="news-headline">${item.headline}</h3>
+        <span class="news-source">${item.source}</span>
+      </div>
+      <a class="news-btn" href="${item.url}" target="_blank" rel="noopener">▶ Ver en YouTube</a>
+    </article>
+  `).join('');
+
+  let current = 0;
+  const section = document.querySelector('.news-section');
+  const dotsContainer = document.createElement('div');
+  dotsContainer.className = 'news-dots';
+  items.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'news-dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', 'Noticia ' + (i + 1));
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+  section.appendChild(dotsContainer);
+
+  function goTo(index) {
+    current = index;
+    const card = track.querySelector('.news-card');
+    if (!card) return;
+    const cardWidth = card.offsetWidth + 16;
+    track.style.transform = `translateX(-${current * cardWidth}px)`;
+    dotsContainer.querySelectorAll('.news-dot').forEach((d, i) =>
+      d.classList.toggle('active', i === current));
+  }
+
+  let autoPlay = setInterval(() => goTo((current + 1) % items.length), 4000);
+  track.addEventListener('mouseenter', () => clearInterval(autoPlay));
+  track.addEventListener('mouseleave', () => {
+    autoPlay = setInterval(() => goTo((current + 1) % items.length), 4000);
+  });
+
+  let dragStart = null;
+  track.addEventListener('mousedown', e => { dragStart = e.pageX; });
+  track.addEventListener('mouseup', e => {
+    if (dragStart === null) return;
+    const diff = dragStart - e.pageX;
+    if (Math.abs(diff) > 50) {
+      goTo(diff > 0 ? Math.min(current + 1, items.length - 1) : Math.max(current - 1, 0));
+    }
+    dragStart = null;
+  });
+}
+
+/* ============================================================
+   HAMBURGUESA NAV
+   ============================================================ */
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('navMenu');
+if (hamburger && navMenu) {
+  hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+      navMenu.classList.remove('open');
+    }
+  });
 }
 
 /* ============================================================

@@ -647,6 +647,20 @@ function localTimeTZ(date, tz) {
 }
 
 /* ============================================================
+   HAMBURGUESA NAV
+   ============================================================ */
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('navMenu');
+if (hamburger && navMenu) {
+  hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+  document.addEventListener('click', e => {
+    if (!hamburger.contains(e.target) && !navMenu.contains(e.target)) {
+      navMenu.classList.remove('open');
+    }
+  });
+}
+
+/* ============================================================
    ARRANQUE
    ============================================================ */
 init();
